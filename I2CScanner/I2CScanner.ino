@@ -38,14 +38,14 @@ void scanFunc( byte addr, byte result ) {
 
 
 byte start_address = 1;
-byte end_address = 100;
+byte end_address = 127;       // Changed from 100 10 127, as that seems to be the end_address. Might be wrong here
 
 // standard Arduino setup()
 void setup()
 {
     Wire.begin();
 
-    Serial.begin(19200);
+    Serial.begin(9600);                   // Changed from 19200 to 9600 which seems to be default for Arduino serial monitor
     Serial.println("\nI2CScanner ready!");
 
     Serial.print("starting scanning of I2C bus from ");
@@ -58,6 +58,9 @@ void setup()
     scanI2CBus( start_address, end_address, scanFunc );
 
     Serial.println("\ndone");
+    
+    // Set pin mode so the loop code works ( Not required for the functionality)
+    pinMode(13, OUTPUT);
 }
 
 // standard Arduino loop()
