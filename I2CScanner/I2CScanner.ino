@@ -37,8 +37,8 @@ void scanFunc( byte addr, byte result ) {
 }
 
 
-byte start_address = 1;
-byte end_address = 127;       // Changed from 100 10 127, as that seems to be the end_address. Might be wrong here
+byte start_address = 8;       // lower addresses are reserved to prevent conflicts with other protocols
+byte end_address = 119;       // higher addresses unlock other modes, like 10-bit addressing
 
 // standard Arduino setup()
 void setup()
