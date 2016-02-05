@@ -6,9 +6,6 @@
  */
 
 #include "Wire.h"
-extern "C" { 
-#include "utility/twi.h"  // from Wire library, so we can do bus scanning
-}
 
 // Scan the I2C bus between addresses from_addr and to_addr.
 // On each address, call the callback function with the address and result.
@@ -18,11 +15,12 @@ extern "C" {
 void scanI2CBus(byte from_addr, byte to_addr, 
                 void(*callback)(byte address, byte result) ) 
 {
-  byte rc;
-  byte data = 0; // not used, just an address to feed to twi_writeTo()
+  byte result;
   for( byte addr = from_addr; addr <= to_addr; addr++ ) {
-    rc = twi_writeTo(addr, &data, 0, 1, 0);
-    callback( addr, rc );
+    Wire.beginTransmission(addr);
+    Wire.write((uint8_t)0);
+    result = Wire.endTransmission(true);
+    callback( addr, result );
   }
 }
 
